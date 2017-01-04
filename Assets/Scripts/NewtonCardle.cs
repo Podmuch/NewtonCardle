@@ -72,16 +72,13 @@ public class NewtonCardle : MonoBehaviour
     private bool HandleCollisions()
     {
         float firstBallAngle = 0, secondBallAngle = 0, distanceBefore= 0, distanceAfter = 0, tempSpeed = 0;
-        Vector3 firstBallPosition = Vector3.zero, secondBallPosition = Vector3.zero;
         for (int i = 0; i < Balls.Length -1; i++)
         {
             firstBallAngle = Balls[i].CurrentAngle;
             Balls[i].CurrentAngle = Balls[i].NextAngle;
-            firstBallPosition = Balls[i].BallTransform.position;
             //
             secondBallAngle = Balls[i+1].CurrentAngle;
             Balls[i+1].CurrentAngle = Balls[i+1].NextAngle;
-            secondBallPosition = Balls[i + 1].BallTransform.position;
             distanceAfter = Vector3.Distance(Balls[i].BallTransform.position, Balls[i + 1].BallTransform.position);
             //
             Balls[i].CurrentAngle = firstBallAngle;
