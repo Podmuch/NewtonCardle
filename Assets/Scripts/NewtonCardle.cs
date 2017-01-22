@@ -53,19 +53,26 @@ public class NewtonCardle : MonoBehaviour
 
     public void SetPlaySpeed(float timeValue)
     {
-        signOfTimeScale = Mathf.Sign(timeValue);
+        if (signOfTimeScale != Mathf.Sign(timeValue))
+        {
+            signOfTimeScale = Mathf.Sign(timeValue);
+            for (int i = 0; i < Balls.Length; i++)
+            {
+                Balls[i].Speed = -Balls[i].Speed;
+            }
+        }
         Time.timeScale = Mathf.Abs(timeValue);
-        signOfTimeScale = Mathf.Sign(timeValue);
     }
 
     private void CalculateMovement()
     {
         for (int i = 0; i < Balls.Length; i++)
         {
-            Balls[i].Acceleration = Physics.gravity.y * CardleBall.L * Mathf.Sin(Balls[i].CurrentAngle * Mathf.Deg2Rad);
-            Balls[i].NextAngle = Balls[i].CurrentAngle + signOfTimeScale * Balls[i].Speed * Time.fixedDeltaTime + signOfTimeScale * Balls[i].Acceleration * Time.fixedDeltaTime * Time.fixedDeltaTime * 0.5f;
+            Balls[i].Acceleration = Mathf.PI * Physics.gravity.y * CardleBall.L * Mathf.Sin(Balls[i].CurrentAngle * Mathf.Deg2Rad);
+            Balls[i].NextAngle = Balls[i].CurrentAngle + Balls[i].Speed * Time.fixedDeltaTime + Balls[i].Acceleration * Time.fixedDeltaTime * Time.fixedDeltaTime * 0.5f;
             Balls[i].NextAngle = Mathf.Clamp(Balls[i].NextAngle > 180 ? Balls[i].NextAngle - 360 : Balls[i].NextAngle, -initialInclination, initialInclination);
-            Balls[i].Speed += signOfTimeScale * Balls[i].Acceleration * Time.fixedDeltaTime;
+            Balls[i].Speed += Balls[i].Acceleration * Time.fixedDeltaTime;
+            if (Mathf.Abs(Balls[i].NextAngle) == initialInclination) Balls[i].Speed = 0;
         }
     }
 

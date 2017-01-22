@@ -33,6 +33,7 @@ public class UIController : MonoBehaviour
         TimeValue.text = TimeSlider.value.ToString("F1");
         TimeSlider.value = 1;
         Cardle.Play();
+        PauseButton.color = Color.white;
     }
 
     public void OnEndButtonPressed()
